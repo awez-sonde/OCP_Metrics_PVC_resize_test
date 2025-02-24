@@ -41,13 +41,13 @@ metadata:
 
 ```
 
-Adding the PVC was around 11.45 AM approx
+Addition of storage was around 11.45 AM approx.
 
-Checking the dashboard we can see that the data before 11.45 AM hours is gone , this is because new data is written on the new PVC
+Checking the dashboard, we can see that the data before 11.45 AM hours is gone, this is because new data is written on the new PVC.
 
 <img width="2716" alt="image" src="https://github.com/user-attachments/assets/62900651-cdb4-4d2c-add1-0140c5794123" />
 
-PVC in use
+Checking the PVC that got created
 
 ```
 [root@test ipi]# oc get pvc
