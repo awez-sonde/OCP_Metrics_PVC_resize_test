@@ -70,12 +70,12 @@ We need to restart the pod, as can be seen in the below Message
 
 <img width="2714" alt="image" src="https://github.com/user-attachments/assets/9b263176-19a3-495e-ae54-b3bac429e261" />
 
-The changes can be seen in prometheus pod directly
+Once the pod is restarted , the changes can be seen in Prometheus Pod directly
 
 <img width="874" alt="image" src="https://github.com/user-attachments/assets/1215aec8-d856-4fd7-9b80-408cd0409204" />
 
 
-Lets check the dashboard again
+####Verifying the dashboard after first PVC expansion
 
 We can still see the metrics from 11.45AM
 
@@ -180,7 +180,7 @@ tmpfs           3.9G     0  3.9G   0% /proc/scsi
 tmpfs           3.9G     0  3.9G   0% /sys/firmware
 ```
 
-Verifying the Monitoring Dashboard for data
+####Verifying the dashboard after second PVC expansion
 
 We can still see the data from 11.45 AM
 
