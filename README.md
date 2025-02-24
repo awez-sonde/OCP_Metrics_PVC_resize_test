@@ -188,6 +188,7 @@ We can still see the data from 11.45 AM
 
 
 The above shows that extending the PVC should NOT effect the prometheus data.
+The PVC's were extended at around 4.00PM but the data from 11.45AM to 4.00PM is intact.
 
 
 
