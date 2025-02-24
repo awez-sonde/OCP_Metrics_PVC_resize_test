@@ -75,7 +75,7 @@ Once the pod is restarted , the changes can be seen in Prometheus Pod directly
 <img width="874" alt="image" src="https://github.com/user-attachments/assets/1215aec8-d856-4fd7-9b80-408cd0409204" />
 
 
-####Verifying the dashboard after first PVC expansion
+#### Verifying the dashboard after first PVC expansion
 
 We can still see the metrics from 11.45AM
 
@@ -180,7 +180,7 @@ tmpfs           3.9G     0  3.9G   0% /proc/scsi
 tmpfs           3.9G     0  3.9G   0% /sys/firmware
 ```
 
-####Verifying the dashboard after second PVC expansion
+#### Verifying the dashboard after second PVC expansion
 
 We can still see the data from 11.45 AM
 
