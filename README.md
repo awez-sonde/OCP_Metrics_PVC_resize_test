@@ -2,7 +2,7 @@
 This project is to verify if PVC resizing has any effect on Openshift metrics
 
 
-## Adding PVC definition to openshift metrics
+## Adding persistent storage to openshift metrics
 
 ```
 [root@test ipi]# oc project openshift-monitoring
