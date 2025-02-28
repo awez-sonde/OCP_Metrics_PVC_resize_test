@@ -191,8 +191,98 @@ The above shows that extending the PVC should NOT effect the prometheus data.
 The PVC's were extended at around 4.00PM but the data from 11.45AM to 4.00PM is intact.
 
 
+## Changing the configuration in cluster-monitor-config
 
 
 
+
+```
+[root@test ipi]# oc edit cm cluster-monitoring-config
+
+
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+data:
+  config.yaml: |
+    enableUserWorkload: true
+    prometheusK8s:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 60Gi ## Changing from 40G to 60G
+          storageClassName: thin-csi
+          volumeMode: Filesystem
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2024-12-22T12:37:33Z"
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+  resourceVersion: "89679881"
+  uid: a8312d33-eec6-4401-b75f-a268909cd444
+```
+
+#### Prometheus pods restart 
+
+```
+[root@test ipi]# oc get po
+NAME                                                     READY   STATUS     RESTARTS   AGE
+alertmanager-main-0                                      6/6     Running    12         106d
+alertmanager-main-1                                      6/6     Running    12         106d
+cluster-monitoring-operator-7d6ffc9477-w55fw             1/1     Running    2          113d
+kube-state-metrics-c7c8f4657-c6bvq                       3/3     Running    6          106d
+monitoring-plugin-794b464cf4-bgpq6                       1/1     Running    2          106d
+monitoring-plugin-794b464cf4-vmlh6                       1/1     Running    2          106d
+node-exporter-2pbnq                                      2/2     Running    4          106d
+node-exporter-4566x                                      2/2     Running    4          106d
+node-exporter-88fpn                                      2/2     Running    4          106d
+node-exporter-f97z6                                      2/2     Running    4          106d
+node-exporter-jxgrw                                      2/2     Running    4          106d
+node-exporter-ntwlc                                      2/2     Running    4          106d
+node-exporter-rgtc2                                      2/2     Running    10         106d
+node-exporter-v97j4                                      2/2     Running    4          106d
+node-exporter-xz6hv                                      2/2     Running    4          106d
+openshift-state-metrics-7f8ff767bd-vfj94                 3/3     Running    6          106d
+prometheus-adapter-d87677bf9-rxhtr                       1/1     Running    0          6d1h
+prometheus-adapter-d87677bf9-v8fgq                       1/1     Running    0          6d1h
+prometheus-k8s-0                                         0/6     Init:0/1   0          4s
+prometheus-k8s-1                                         0/6     Init:0/1   0          4s
+prometheus-operator-5d6d65fbb8-vmr6p                     2/2     Running    4          106d
+prometheus-operator-admission-webhook-565688df86-4drbz   1/1     Running    2          113d
+prometheus-operator-admission-webhook-565688df86-js5fs   1/1     Running    2          113d
+telemeter-client-85f44f68cf-t2xrs                        3/3     Running    6          106d
+thanos-querier-64b6c675cd-dlr8l                          6/6     Running    6          67d
+thanos-querier-64b6c675cd-llzwl                          6/6     Running    6          67d
+```
+
+#### PVC remains the same , i.e no new PVC is created
+
+```
+[root@test ipi]# oc get pvc
+NAME                                 STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+prometheus-k8s-db-prometheus-k8s-0   Bound    pvc-4908dc87-e171-4531-bab6-68efd705fbc5   60Gi       RWO            thin-csi       3d23h
+prometheus-k8s-db-prometheus-k8s-1   Bound    pvc-c15c98b4-5cba-4e17-805c-340f1e3b2e25   60Gi       RWO            thin-csi       3d23h
+
+
+
+[root@test ipi]# oc get po | grep -i prometheus
+prometheus-adapter-d87677bf9-rxhtr                       1/1     Running   0          6d1h
+prometheus-adapter-d87677bf9-v8fgq                       1/1     Running   0          6d1h
+prometheus-k8s-0                                         6/6     Running   0          64s
+prometheus-k8s-1                                         6/6     Running   0          64s
+prometheus-operator-5d6d65fbb8-vmr6p                     2/2     Running   4          106d
+prometheus-operator-admission-webhook-565688df86-4drbz   1/1     Running   2          113d
+prometheus-operator-admission-webhook-565688df86-js5fs   1/1     Running   2          113d
+
+```
+
+#### Verifying the dashboard after changing cluster-monitoring-config
+
+<img width="1211" alt="image" src="https://github.com/user-attachments/assets/ef020339-d330-432c-abbc-48db83daacea" />
+
+So the data continous to exist as can be seen in dashboard.So data is intact.
 
 
